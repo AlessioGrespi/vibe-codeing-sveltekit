@@ -1,0 +1,8 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# API Interaction Rule
+
+Anytime an API interaction is required on the frontend, it must be routed through an API route implemented with `server.ts`. This is to ensure that external API endpoints are protected and not directly exposed to the client.

@@ -1,0 +1,8 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# SvelteKit Form Actions Rule
+
+All form actions (unless specified otherwise) should be implemented in the SvelteKit page server file (e.g., `+page.server.ts`). On the frontend, forms should use the `use:enhance` directive for progressive enhancement and to connect to the server-side actions.

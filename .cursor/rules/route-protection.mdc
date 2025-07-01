@@ -1,0 +1,8 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Route Protection Rule
+
+All route protection must be implemented in `hooks.server.ts`. Under no circumstances are `+layout` or `+page` files to be used to protect routes. This ensures that authentication and authorization logic is centralized and consistently applied to all routes.
