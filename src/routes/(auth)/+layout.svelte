@@ -1,5 +1,12 @@
-<a href="/" class="absolute top-4 left-4" aria-label="Go back to home">
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="M19 12H5"/><path d="M12 19L5 12L12 5"/></svg>
-</a>
+<script>
+	import { Button } from '$lib/components/ui/button';
+	import { ArrowLeft } from 'lucide-svelte';
+</script>
+
+<Button variant="ghost" size="icon" asChild class="absolute top-4 left-4">
+	<a href="/" aria-label="Go back to home">
+		<ArrowLeft class="h-4 w-4" />
+	</a>
+</Button>
 
 <slot />

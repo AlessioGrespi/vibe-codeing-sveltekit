@@ -1,25 +1,63 @@
 <script lang="ts">
 	import { enhance } from '$app/forms';
+	import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '$lib/components/ui/card';
+	import { Input } from '$lib/components/ui/input';
+	import { Label } from '$lib/components/ui/label';
+	import { Button } from '$lib/components/ui/button';
+	import OAuthSection from '$lib/components/OAuthSection.svelte';
+	
 	export let form: any;
+	
+	const oauthProviders = [
+		{ provider: 'google', href: '/oauth/google' },
+		{ provider: 'github', href: '/oauth/github' }
+	];
 </script>
 
-<div class="m-10 mx-auto max-w-md w-auto h-full bg-gray-50 dark:bg-gray-900 p-5 flex flex-col gap-4 place-items-center">
-	<form method="POST" use:enhance>
-		<label for="email">Email</label>
-		<input id="email" name="email" type="email" required autocomplete="email" />
+<div class="min-h-screen flex items-center justify-center bg-background p-4">
+	<Card class="w-full max-w-md">
+		<CardHeader class="space-y-1">
+			<CardTitle class="text-2xl text-center">Login</CardTitle>
+			<CardDescription class="text-center">
+				Enter your credentials to access your account
+			</CardDescription>
+		</CardHeader>
+		<CardContent class="space-y-4">
+			<form method="POST" use:enhance class="space-y-4">
+				<div class="space-y-2">
+					<Label for="email">Email</Label>
+					<Input 
+						id="email" 
+						name="email" 
+						type="email" 
+						required 
+						autocomplete="email"
+						placeholder="Enter your email"
+					/>
+				</div>
 
-		<label for="password">Password</label>
-		<input id="password" name="password" type="password" required autocomplete="current-password" />
+				<div class="space-y-2">
+					<Label for="password">Password</Label>
+					<Input 
+						id="password" 
+						name="password" 
+						type="password" 
+						required 
+						autocomplete="current-password"
+						placeholder="Enter your password"
+					/>
+				</div>
 
-		<button type="submit">Login</button>
+				<Button type="submit" class="w-full">
+					Login
+				</Button>
 
-		{#if form?.error}
-			<p>{form.error}</p>
-		{/if}
-	</form>
+				{#if form?.error}
+					<p class="text-sm text-destructive text-center">{form.error}</p>
+				{/if}
+			</form>
 
-	<hr />
-	<p>Or log in with:</p>
-	<a href="/oauth/google">Google</a>
-	<a href="/oauth/github">GitHub</a>
+			<OAuthSection providers={oauthProviders} />
+		</CardContent>
+	</Card>
 </div>
