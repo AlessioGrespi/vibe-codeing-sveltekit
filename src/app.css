@@ -1,7 +1,12 @@
 @import 'tailwindcss';
 
 body {
-    @apply bg-neutral-100 w-full;
+    @apply bg-white text-black;
+}
+
+/* Dark mode styles */
+.dark body {
+    @apply bg-black text-white;
 }
 
 nav {
@@ -9,11 +14,23 @@ nav {
 }
 
 a {
-    @apply hover:bg-neutral-200 px-2 py-0.5 rounded-md font-semibold cursor-pointer;
+    @apply hover:bg-gray-200 px-2 py-0.5 rounded-md font-semibold cursor-pointer;
+}
+
+.dark a {
+    @apply hover:bg-gray-700;
 }
 
 button {
-    @apply bg-neutral-200 text-black px-4 py-1 rounded-md hover:bg-neutral-300 cursor-pointer font-semibold;
+    @apply bg-gray-200 text-black  rounded-md hover:bg-gray-300 cursor-pointer font-semibold;
+}
+
+.dark button {
+    @apply bg-gray-700 text-white hover:bg-gray-600;
+}
+
+form {
+    @apply flex flex-col gap-4 mx-auto;
 }
 
 form div {
@@ -21,5 +38,9 @@ form div {
 }
 
 form input {
-    @apply border border-neutral-300 rounded-md;
+    @apply border border-gray-300 rounded-md;
+}
+
+.dark form input {
+    @apply border-gray-600 bg-gray-800 text-white;
 }
