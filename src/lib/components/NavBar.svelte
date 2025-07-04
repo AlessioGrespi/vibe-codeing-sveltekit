@@ -1,39 +1,40 @@
 <script lang="ts">
-  import { Sun, Moon } from 'lucide-svelte';
   import { theme, toggleTheme } from '$lib/stores/theme';
+  import { Button } from '$lib/components/ui/button';
+  import ThemeSwitcher from './ThemeSwitcher.svelte';
   
   export let data: { user: { id: number; email: string } | null };
 </script>
 
-<nav class="w-full border-gray-200 dark:border-gray-700">
-  <div class="flex justify-between items-center  container mx-auto">
+<nav class="w-full border-b border-border bg-background">
+  <div class="flex justify-between items-center container mx-auto px-4 py-3">
     <div class="flex items-center gap-4">
-      <a href="/">Home</a>
+      <Button variant="ghost" asChild>
+        <a href="/">Home</a>
+      </Button>
     </div>
     <div class="flex items-center gap-4">
-      <a href="/protected">Protected</a>
-      <a href="/protected/settings">Settings</a>
+      <Button variant="ghost" asChild>
+        <a href="/protected">Protected</a>
+      </Button>
+      <Button variant="ghost" asChild>
+        <a href="/protected/settings">Settings</a>
+      </Button>
     </div>
     <div class="flex items-center gap-4">
       {#if data.user}
-        <a href="/logout">Logout</a>
+        <Button variant="ghost" asChild>
+          <a href="/logout">Logout</a>
+        </Button>
       {:else}
-        <a href="/login">Login</a>
-        <a href="/register">Register</a>
+        <Button variant="ghost" asChild>
+          <a href="/login">Login</a>
+        </Button>
+        <Button variant="ghost" asChild>
+          <a href="/register">Register</a>
+        </Button>
       {/if}
-      <button 
-        on:click={toggleTheme}
-        class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-        aria-label="Toggle theme"
-      >
-        {#if $theme === 'dark'}
-          <Sun size={20} />
-        {:else}
-          <Moon size={20} />
-        {/if}
-      </button>
+      <ThemeSwitcher />
     </div>
-    <!-- <div class="flex items-center">
-    </div> -->
   </div>
 </nav>
