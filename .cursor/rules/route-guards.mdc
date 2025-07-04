@@ -1,0 +1,6 @@
+# Route Guard Rule
+
+- All authentication and authorization route guards must be implemented in `hooks.server.ts`.
+- Do NOT use layout or page load functions for route guards, as this is a security vulnerability (users can bypass client-side navigation).
+- Always check authentication and authorization in the handle hook for protected routes.
+- Reference: [src/hooks.server.ts](mdc:src/hooks.server.ts)
