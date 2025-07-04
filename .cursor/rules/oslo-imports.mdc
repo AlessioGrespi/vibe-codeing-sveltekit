@@ -1,0 +1,19 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Oslo Import Rule
+
+When using Oslo packages, always import from the explicit subpath, not the package root. This is required for compatibility with Vite and Node ESM resolution.
+
+Example:
+```js
+// Correct:
+import { Argon2id } from '@oslojs/crypto/argon2';
+
+// Incorrect:
+import { Argon2id } from '@oslojs/crypto';
+```
+
+Apply this rule for all Oslo package imports.

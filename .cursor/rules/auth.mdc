@@ -1,0 +1,21 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Authentication Implementation Guide
+
+- Do NOT use the `lucia` library for authentication, as it is deprecated.
+- You ARE permitted to use the following modern libraries for authentication and cryptography:
+  - [Oslo](https://oslojs.dev/) (for crypto, OTP, JWT, etc.)
+  - [Arctic](https://arcticjs.dev/) (for OAuth 2.0 providers)
+- These libraries are the modern version of certain lucia elements.
+- A good chunk of what lucia does can be written from scratch; you may implement your own session, password, and user logic as needed.
+- You may reference the structure and ideas from lucia-based code for inspiration, but all authentication/session logic must be implemented manually or with Oslo/Arctic as building blocks.
+
+- For password hashing, use a library like `bcrypt`, `argon2`, or Oslo's crypto primitives.
+- For session management, use secure cookies and your own session table (see [src/lib/schema.ts](mdc:src/lib/schema.ts)).
+- For user authentication, implement your own logic in the relevant SvelteKit endpoints.
+- Reference the [src/lib/auth/auth.ts](mdc:src/lib/auth/auth.ts) file for inspiration, but do not import or use `lucia` or `@lucia-auth/adapter-drizzle`.
+
+All new authentication code must follow this rule.

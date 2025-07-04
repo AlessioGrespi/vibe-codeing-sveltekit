@@ -1,0 +1,19 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Svelte File Script Order Rule
+
+In all Svelte files, the <script> block must appear before the HTML markup. This applies to every Svelte component in the codebase.
+
+Example:
+```svelte
+<script>
+  // JS/TS logic here
+</script>
+
+<!-- HTML markup here -->
+```
+
+Always follow this order when creating or editing Svelte files.

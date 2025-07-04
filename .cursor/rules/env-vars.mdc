@@ -1,0 +1,23 @@
+# Environment Variables in This Project
+
+- Environment variables are stored in a `.env` file at the project root (not committed to git).
+- Use the `$env/static/private` module to import private environment variables in server-side code.
+  - Example: `import { DATABASE_URL } from '$env/static/private';`
+# Environment Variables in This Project
+
+- Environment variables are stored in a `.env` file at the project root (not committed to git).
+- Use the `$env/static/private` module to import private environment variables in server-side code.
+  - Example: `import { DATABASE_URL } from '$env/static/private';`
+- `$env/static/private` statically injects values at build time, enabling optimizations like dead code elimination.
+- All environment variables referenced in your code should be declared in your `.env` file, even if they are empty or only set in production.
+  - Example declaration: `MY_FEATURE_FLAG=""`
+- You can override `.env` values from the command line:
+  - Example: `MY_FEATURE_FLAG="enabled" npm run dev`
+- Variables in `.env` are automatically loaded in development by SvelteKit/Vite.
+- For Drizzle ORM and database connections, use `DATABASE_URL` as shown in [src/lib/db.ts](mdc:src/lib/db.ts):
+  ```ts
+  import { DATABASE_URL } from '$env/static/private';
+  const client = postgres(DATABASE_URL);
+  ```
+- Never expose secrets to client-side code. Only import from `$env/static/private` in server files.
+- See the SvelteKit docs for more: https://kit.svelte.dev/docs/modules#$env-static-private
