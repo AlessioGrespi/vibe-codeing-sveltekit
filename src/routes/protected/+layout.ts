@@ -1,0 +1,1 @@
+export const csr = false; // Disable client-side routing

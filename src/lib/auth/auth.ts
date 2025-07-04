@@ -1,28 +1,17 @@
-// Make sure to install lucia and @lucia-auth/adapter-drizzle
-import { Lucia } from 'lucia';
-import { DrizzleAdapter } from '@lucia-auth/adapter-drizzle';
-import { db } from '../db';
-import { users, sessions } from '../schema';
-import type { InferModel } from 'drizzle-orm';
+// Authentication utilities - using custom implementation with Drizzle ORM
+// No longer using deprecated Lucia package
 
-// Infer user attributes type from users table
+import type { InferModel } from 'drizzle-orm';
 import type { users as usersTable } from '../schema';
 
-type UserAttributes = InferModel<typeof usersTable>;
+// Type for user attributes
+export type UserAttributes = InferModel<typeof usersTable>;
 
-export const lucia = new Lucia(new DrizzleAdapter(db, users, sessions), {
-  sessionCookie: {
-    attributes: {
-      secure: process.env.NODE_ENV === 'production',
-    }
-  },
-  getUserAttributes: (attributes: UserAttributes) => {
-    return {
-      email: attributes.email,
-      emailVerified: attributes.email_verified,
-      twoFactorEnabled: attributes.two_factor_enabled
-    };
-  }
-});
-
-export type Auth = typeof lucia;
+// Export user attributes getter function for consistency
+export const getUserAttributes = (attributes: UserAttributes) => {
+  return {
+    email: attributes.email,
+    emailVerified: attributes.email_verified,
+    twoFactorEnabled: attributes.two_factor_enabled
+  };
+};

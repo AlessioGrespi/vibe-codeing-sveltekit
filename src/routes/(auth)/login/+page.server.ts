@@ -71,11 +71,18 @@ export const actions = {
     await db.delete(sessions).where(and(eq(sessions.user_id, user.id), ne(sessions.id, sessionId)));
 
     // Set session cookie
+    // Determine if we're in production based on multiple factors
+    const isProduction = process.env.NODE_ENV === 'production' || 
+                        process.env.VERCEL_ENV === 'production' ||
+                        process.env.VERCEL_ENV === 'preview' ||
+                        process.env.RAILWAY_ENVIRONMENT === 'production' ||
+                        process.env.FLY_APP_NAME !== undefined;
+    
     cookies.set(SESSION_COOKIE_NAME, sessionId, {
       path: '/',
       httpOnly: true,
       sameSite: 'lax',
-      secure: process.env.NODE_ENV === 'production',
+      secure: isProduction,
       maxAge: SESSION_MAX_AGE
     });
 
