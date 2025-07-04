@@ -24,28 +24,34 @@ export const handle: Handle = async ({ event, resolve }) => {
   
   event.locals.user = null;
 
-  if (sessionId) {
-    // Find session and user
-    const session = await db.select().from(sessions)
-      .where(and(eq(sessions.id, sessionId), gt(sessions.expires_at, new Date())))
-      .then(rows => rows[0]);
-    
-    if (session) {
-      const user = await db.select().from(users).where(eq(users.id, session.user_id)).then(rows => rows[0]);
-      if (user) {
-        event.locals.user = {
-          id: user.id,
-          email: user.email,
-          emailVerified: user.email_verified,
-          twoFactorEnabled: user.two_factor_enabled
-        };
+  // Only attempt database operations if db is available
+  if (db && sessionId) {
+    try {
+      // Find session and user
+      const session = await db.select().from(sessions)
+        .where(and(eq(sessions.id, sessionId), gt(sessions.expires_at, new Date())))
+        .then(rows => rows[0]);
+      
+      if (session) {
+        const user = await db.select().from(users).where(eq(users.id, session.user_id)).then(rows => rows[0]);
+        if (user) {
+          event.locals.user = {
+            id: user.id,
+            email: user.email,
+            emailVerified: user.email_verified,
+            twoFactorEnabled: user.two_factor_enabled
+          };
+        } else {
+          // Session exists but user not found - clean up invalid session
+          await db.delete(sessions).where(eq(sessions.id, sessionId));
+        }
       } else {
-        // Session exists but user not found - clean up invalid session
-        await db.delete(sessions).where(eq(sessions.id, sessionId));
+        // Session not found or expired - clean up invalid session cookie
+        event.cookies.delete(SESSION_COOKIE_NAME, { path: '/' });
       }
-    } else {
-      // Session not found or expired - clean up invalid session cookie
-      event.cookies.delete(SESSION_COOKIE_NAME, { path: '/' });
+    } catch (error) {
+      console.error('Database error in hooks:', error);
+      // If database is not available, just continue without authentication
     }
   }
 
